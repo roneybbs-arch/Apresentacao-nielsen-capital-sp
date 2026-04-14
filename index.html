@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nielsen RDC Online — Capital SP · Análise Estratégica</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0f1e;
+  --bg2: #0f1628;
+  --bg3: #151d35;
+  --card: #111827;
+  --card2: #1a2235;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --accent: #4f9cf9;
+  --accent2: #7c5cbf;
+  --gold: #f0b429;
+  --red: #f87171;
+  --green: #4ade80;
+  --teal: #2dd4bf;
+  --text: #f1f5f9;
+  --text2: #94a3b8;
+  --text3: #64748b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 48px;height:64px;
+  background:rgba(10,15,30,0.88);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--text);letter-spacing:-0.02em}
+.nav-logo span{color:var(--accent)}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{font-size:13px;font-weight:500;color:var(--text2);text-decoration:none;letter-spacing:0.02em;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-badge{font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);background:rgba(255,255,255,0.05);padding:4px 10px;border-radius:20px;border:1px solid var(--border)}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:100px 48px 80px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(79,156,249,0.08) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 80% 80%,rgba(124,92,191,0.06) 0%,transparent 50%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 0%,transparent 100%)}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.15em;color:var(--accent);text-transform:uppercase;margin-bottom:24px;display:flex;align-items:center;gap:10px}
+.hero-eyebrow::before{content:'';width:32px;height:1px;background:var(--accent)}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(44px,5.5vw,82px);font-weight:900;line-height:1.0;letter-spacing:-0.03em;margin-bottom:24px;max-width:820px}
+.hero-title .accent{color:transparent;-webkit-text-stroke:1px rgba(79,156,249,0.6)}
+.hero-desc{font-size:17px;font-weight:300;color:var(--text2);max-width:520px;line-height:1.7;margin-bottom:56px}
+
+.geo-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(79,156,249,0.1);border:1px solid rgba(79,156,249,0.3);
+  border-radius:20px;padding:6px 14px;margin-bottom:20px;
+  font-size:12px;font-weight:500;color:var(--accent);
+}
+.geo-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.6;transform:scale(1.2)}}
+
+.hero-stats{display:flex;gap:0;flex-wrap:wrap;border:1px solid var(--border);border-radius:16px;overflow:hidden;max-width:720px}
+.hero-stat{flex:1;min-width:160px;padding:24px 28px;border-right:1px solid var(--border);transition:background .3s;position:relative;overflow:hidden;cursor:default}
+.hero-stat:last-child{border-right:none}
+.hero-stat::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(79,156,249,0.08),transparent);opacity:0;transition:opacity .3s}
+.hero-stat:hover{background:rgba(255,255,255,0.03)}
+.hero-stat:hover::after{opacity:1}
+.stat-val{font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:var(--text);line-height:1;margin-bottom:6px}
+.stat-label{font-size:12px;color:var(--text3);font-weight:400;letter-spacing:0.02em}
+.stat-sub{font-size:11px;color:var(--accent);font-weight:500;margin-top:4px}
+
+section{padding:96px 48px;border-top:1px solid var(--border)}
+.section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:48px}
+.section-eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;color:var(--accent);text-transform:uppercase;margin-bottom:10px}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(26px,3.2vw,42px);font-weight:700;letter-spacing:-0.02em;line-height:1.15}
+.section-desc{font-size:14px;color:var(--text2);max-width:360px;text-align:right;line-height:1.6}
+
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.cat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 22px;cursor:default;transition:all .3s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
+.cat-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);transform:scaleY(0);transform-origin:bottom;transition:transform .3s}
+.cat-card:hover{background:var(--card2);border-color:var(--border2);transform:translateY(-2px);box-shadow:0 12px 40px rgba(0,0,0,0.3)}
+.cat-card:hover::before{transform:scaleY(1)}
+.cat-rank{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);margin-bottom:8px}
+.cat-name{font-size:14px;font-weight:500;color:var(--text);margin-bottom:14px;line-height:1.3;min-height:36px}
+.cat-numbers{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px}
+.cat-benchmark{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--accent)}
+.cat-varejista{font-size:13px;color:var(--text2)}
+.cat-bar-wrap{height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden}
+.cat-bar-fill{height:4px;border-radius:2px;background:var(--accent);transition:width 1s cubic-bezier(.4,0,.2,1) .2s}
+.cat-pen{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;margin-top:8px}
+.pen-critical{background:rgba(248,113,113,0.15);color:var(--red);border:1px solid rgba(248,113,113,0.25)}
+.pen-low{background:rgba(240,180,41,0.12);color:var(--gold);border:1px solid rgba(240,180,41,0.2)}
+.pen-mid{background:rgba(74,222,128,0.1);color:var(--green);border:1px solid rgba(74,222,128,0.2)}
+
+.chart-area{display:flex;flex-direction:column;gap:10px;max-width:900px;margin-top:32px}
+.chart-row{display:grid;grid-template-columns:200px 1fr 110px;align-items:center;gap:16px}
+.chart-label{font-size:12px;color:var(--text2);text-align:right;font-weight:400}
+.chart-bar-outer{height:28px;background:rgba(255,255,255,0.05);border-radius:4px;position:relative;overflow:hidden}
+.chart-bar-inner{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:10px;font-size:11px;font-weight:600;color:rgba(255,255,255,0.9);transition:width 1.2s cubic-bezier(.4,0,.2,1);white-space:nowrap;overflow:hidden}
+.chart-bar-v{position:absolute;top:0;height:100%;background:rgba(248,113,113,0.5);transition:width 1.2s cubic-bezier(.4,0,.2,1) .15s}
+.chart-val{font-family:'DM Mono',monospace;font-size:11px;color:var(--text2);text-align:right}
+
+.legend-row{display:flex;align-items:center;gap:24px;margin-bottom:20px}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)}
+.legend-dot{width:10px;height:10px;border-radius:2px}
+
+.opp-intro{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:48px}
+.opp-kpi{padding:28px;border-radius:14px;border:1px solid var(--border);position:relative;overflow:hidden}
+.opp-kpi.main{background:linear-gradient(135deg,rgba(79,156,249,0.1),rgba(124,92,191,0.08));border-color:rgba(79,156,249,0.25)}
+.opp-kpi.warn{background:linear-gradient(135deg,rgba(248,113,113,0.08),transparent);border-color:rgba(248,113,113,0.2)}
+.opp-kpi.good{background:linear-gradient(135deg,rgba(74,222,128,0.07),transparent);border-color:rgba(74,222,128,0.18)}
+.opp-kpi-label{font-size:12px;color:var(--text3);font-weight:500;letter-spacing:0.04em;margin-bottom:8px}
+.opp-kpi-val{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;line-height:1;margin-bottom:6px}
+.opp-kpi.main .opp-kpi-val{color:var(--accent)}
+.opp-kpi.warn .opp-kpi-val{color:var(--red)}
+.opp-kpi.good .opp-kpi-val{color:var(--green)}
+.opp-kpi-sub{font-size:13px;color:var(--text2);line-height:1.5}
+
+.opp-cats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:48px}
+.opp-cat{padding:18px 16px;background:var(--card);border:1px solid var(--border);border-radius:10px;transition:all .3s;cursor:default}
+.opp-cat:hover{background:var(--card2);border-color:var(--border2);transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,0.35)}
+.opp-cat-name{font-size:12px;color:var(--text2);margin-bottom:12px;font-weight:500;min-height:32px;line-height:1.4}
+.opp-cat-b{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--gold);line-height:1;margin-bottom:4px}
+.opp-cat-count{font-size:11px;color:var(--text3)}
+
+.items-table{width:100%;border-collapse:collapse}
+.items-table thead{position:sticky;top:0;z-index:2;background:var(--card)}
+.items-table thead tr{border-bottom:1px solid var(--border2)}
+.items-table th{padding:10px 14px;text-align:left;font-size:10px;font-weight:600;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase}
+.items-table th.right{text-align:right}
+.items-table tbody tr{border-bottom:1px solid var(--border);transition:background .15s}
+.items-table tbody tr:hover{background:rgba(255,255,255,0.025)}
+.items-table tbody tr:last-child{border-bottom:none}
+.items-table td{padding:11px 14px;font-size:13px;color:var(--text);vertical-align:middle}
+.items-table td.right{text-align:right}
+.item-rank{font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);width:32px}
+.item-name{font-size:13px;color:var(--text);max-width:300px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item-cat{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(255,255,255,0.05);color:var(--text3);border:1px solid var(--border);white-space:nowrap}
+.item-b{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:var(--accent)}
+.item-zero{font-family:'DM Mono',monospace;font-size:12px;color:var(--red);font-weight:600}
+
+.insights-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.insight-card{padding:28px;border-radius:14px;border:1px solid var(--border);background:var(--card);transition:all .3s;position:relative;overflow:hidden}
+.insight-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;transition:opacity .3s;opacity:0}
+.insight-card.blue::after{background:linear-gradient(90deg,var(--accent),transparent)}
+.insight-card.gold::after{background:linear-gradient(90deg,var(--gold),transparent)}
+.insight-card.red::after{background:linear-gradient(90deg,var(--red),transparent)}
+.insight-card.green::after{background:linear-gradient(90deg,var(--green),transparent)}
+.insight-card.teal::after{background:linear-gradient(90deg,var(--teal),transparent)}
+.insight-card.purple::after{background:linear-gradient(90deg,var(--accent2),transparent)}
+.insight-card:hover{background:var(--card2);border-color:var(--border2);transform:translateY(-2px)}
+.insight-card:hover::after{opacity:1}
+.insight-icon{font-size:22px;margin-bottom:14px;display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:10px;background:rgba(255,255,255,0.05)}
+.insight-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:10px;line-height:1.35}
+.insight-text{font-size:13px;color:var(--text2);line-height:1.65}
+.insight-highlight{display:inline-block;margin-top:14px;font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);padding:4px 10px;border-radius:20px;background:rgba(79,156,249,0.08);border:1px solid rgba(79,156,249,0.2)}
+.insight-highlight.gold{color:var(--gold);background:rgba(240,180,41,0.08);border-color:rgba(240,180,41,0.2)}
+.insight-highlight.red{color:var(--red);background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.2)}
+.insight-highlight.green{color:var(--green);background:rgba(74,222,128,0.08);border-color:rgba(74,222,128,0.2)}
+
+footer{padding:48px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.footer-left{font-family:'Playfair Display',serif;font-size:20px;font-weight:700}
+.footer-left span{color:var(--accent)}
+.footer-right{font-size:12px;color:var(--text3);text-align:right;line-height:1.6}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+.tooltip-wrap{position:relative}
+.tooltip{position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);background:#1e2a45;border:1px solid var(--border2);border-radius:8px;padding:10px 14px;min-width:200px;font-size:12px;color:var(--text);opacity:0;pointer-events:none;transition:opacity .2s;z-index:50;box-shadow:0 8px 32px rgba(0,0,0,0.5);white-space:nowrap}
+.tooltip-wrap:hover .tooltip{opacity:1}
+
+.scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;animation:bounce 2s infinite;cursor:pointer;color:var(--text3);font-size:11px;letter-spacing:0.1em}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+.scroll-arrow{width:20px;height:20px;border-right:1.5px solid var(--text3);border-bottom:1.5px solid var(--text3);transform:rotate(45deg)}
+
+.hustle-alert{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:14px 18px;margin-bottom:16px;
+  background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.2);
+  border-radius:10px;font-size:13px;color:var(--text2);line-height:1.5;
+}
+.hustle-alert strong{color:var(--red)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Thalia <span>×</span> Nielsen SP</div>
+  <ul class="nav-links">
+    <li><a href="#categorias">Categorias</a></li>
+    <li><a href="#fabricantes">Fabricantes</a></li>
+    <li><a href="#oportunidades">Oportunidades</a></li>
+    <li><a href="#insights">Estratégia</a></li>
+  </ul>
+  <div class="nav-badge">Capital SP · YTD s14 · 2026</div>
+</nav>
+
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div style="position:relative;z-index:1">
+    <div class="geo-badge">
+      <div class="geo-dot"></div>
+      Capital de São Paulo — Perf Int SP_NP
+    </div>
+    <div class="hero-eyebrow">Análise Estratégica de Portfólio</div>
+    <h1 class="hero-title">
+      O que o mercado<br>
+      paulistano <span class="accent">compra</span><br>sem a Thalia
+    </h1>
+    <p class="hero-desc">
+      Nielsen RDC Online · Capital SP (Perf Int SP_NP) · Diagnóstico de lacunas,
+      participação de mercado e oportunidades de expansão para 2026.
+    </p>
+    <div class="hero-stats">
+      <div class="hero-stat tooltip-wrap">
+        <div class="stat-val">R$ 128M</div>
+        <div class="stat-label">Benchmark Capital SP</div>
+        <div class="stat-sub">Total YTD acumulado</div>
+        <div class="tooltip">Volume total do mercado na Capital SP monitorado pelo Nielsen — 85 categorias</div>
+      </div>
+      <div class="hero-stat tooltip-wrap">
+        <div class="stat-val">R$ 5,8M</div>
+        <div class="stat-label">Faturamento Thalia</div>
+        <div class="stat-sub">4,5% de participação</div>
+        <div class="tooltip">Vendas acumuladas da Thalia no mercado da Capital SP — YTD até semana 14</div>
+      </div>
+      <div class="hero-stat tooltip-wrap">
+        <div class="stat-val">1.083</div>
+        <div class="stat-label">SKUs de Oportunidade</div>
+        <div class="stat-sub">Thalia R$0 / Mercado >R$5k</div>
+        <div class="tooltip">Itens com zero vendas na Thalia que o mercado paulistano consome ativamente</div>
+      </div>
+      <div class="hero-stat tooltip-wrap">
+        <div class="stat-val">R$ 17,8M</div>
+        <div class="stat-label">Potencial Não Capturado</div>
+        <div class="stat-sub">Benchmark acumulado</div>
+        <div class="tooltip">Benchmark total dos SKUs com Thalia=0 e mercado acima de R$5k na Capital SP</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint" onclick="document.getElementById('categorias').scrollIntoView({behavior:'smooth'})">
+    ROLAR
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<section id="categorias">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-eyebrow">01 — Categorias</div>
+      <h2 class="section-title">Top 15 Subgrupos<br>por Faturamento · Capital SP</h2>
+    </div>
+    <div class="section-desc">
+      Penetração = Faturamento Thalia ÷ Benchmark Capital SP.<br>Barra azul = mercado, vermelha = Thalia.
+    </div>
+  </div>
+  <div class="legend-row reveal">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div> Benchmark SP (Perf Int SP_NP)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> Thalia (Varejista)</div>
+    <div class="legend-item"><span class="cat-pen pen-critical">Crítica &lt;5%</span></div>
+    <div class="legend-item"><span class="cat-pen pen-low">Baixa 5–20%</span></div>
+    <div class="legend-item"><span class="cat-pen pen-mid">Média &gt;20%</span></div>
+  </div>
+  <div class="cat-grid reveal" id="cat-grid"></div>
+</section>
+
+<section id="fabricantes" style="background:var(--bg2)">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-eyebrow">02 — Fabricantes</div>
+      <h2 class="section-title">Top 15 Marcas<br>por Benchmark · Capital SP</h2>
+    </div>
+    <div class="section-desc">
+      Parceiros estratégicos com maior presença no mercado paulistano — prioridade para negociação de mix.
+    </div>
+  </div>
+  <div class="reveal">
+    <div class="hustle-alert">
+      <span>⚠</span>
+      <span><strong>Atenção:</strong> Hustle Brands aparece em 13º com R$1,9M de benchmark e <strong>R$0 de vendas Thalia</strong> — marca com presença exclusiva no mercado paulistano e zero penetração na rede.</span>
+    </div>
+    <div class="legend-row">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div> Benchmark (Mercado)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--red);opacity:.7"></div> Thalia (Varejista)</div>
+    </div>
+    <div class="chart-area" id="fab-chart"></div>
+  </div>
+</section>
+
+<section id="oportunidades" style="background:var(--bg2);border-top:1px solid var(--border)">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-eyebrow">03 — Oportunidades</div>
+      <h2 class="section-title">R$ 17,8M em Potencial<br>na Capital SP</h2>
+    </div>
+    <div class="section-desc">
+      SKUs com Thalia zerada e mercado ativo acima de R$5k — buyer review prioritário.
+    </div>
+  </div>
+
+  <div class="opp-intro reveal">
+    <div class="opp-kpi main">
+      <div class="opp-kpi-label">POTENCIAL TOTAL IDENTIFICADO</div>
+      <div class="opp-kpi-val">R$17,8M</div>
+      <div class="opp-kpi-sub">Benchmark acumulado de 1.083 SKUs com Thalia zerada na Capital SP</div>
+    </div>
+    <div class="opp-kpi warn">
+      <div class="opp-kpi-label">SKUs COM CRESCIMENTO &gt;100%</div>
+      <div class="opp-kpi-val">119</div>
+      <div class="opp-kpi-sub">Produtos em aceleração no mercado paulistano ainda fora do portfólio</div>
+    </div>
+    <div class="opp-kpi good">
+      <div class="opp-kpi-label">SKUs COM CRESCIMENTO &gt;50%</div>
+      <div class="opp-kpi-val">194</div>
+      <div class="opp-kpi-sub">Tendências em alta com alto potencial de captura imediata</div>
+    </div>
+  </div>
+
+  <div class="section-eyebrow reveal" style="margin-bottom:16px">Potencial por Categoria — Top 10</div>
+  <div class="opp-cats reveal" id="opp-cats"></div>
+
+  <div class="section-eyebrow reveal" style="margin-bottom:16px;margin-top:48px">Top 100 SKUs Individuais de Oportunidade · Capital SP</div>
+  <div class="reveal" style="background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden">
+    <div style="max-height:600px;overflow-y:auto">
+      <table class="items-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Produto</th>
+            <th>Categoria</th>
+            <th class="right">Benchmark SP</th>
+            <th class="right">Cresc. Mkt</th>
+            <th class="right">Thalia</th>
+          </tr>
+        </thead>
+        <tbody id="items-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="insights">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-eyebrow">04 — Estratégia</div>
+      <h2 class="section-title">6 Vetores de Ação<br>para o Mercado Paulistano</h2>
+    </div>
+    <div class="section-desc">
+      Diagnóstico cruzando benchmark Capital SP, penetração e crescimento de mercado.
+    </div>
+  </div>
+  <div class="insights-grid reveal" id="insights-grid"></div>
+</section>
+
+<footer>
+  <div>
+    <div class="footer-left">Thalia <span>×</span> Nielsen Capital SP</div>
+    <div style="font-size:12px;color:var(--text3);margin-top:4px">Perf Int SP_NP · YTD até Semana 14 · Abril 2026</div>
+  </div>
+  <div class="footer-right">
+    Fonte: Nielsen RDC Online — ALL Categorias, 152 fabricantes, 7.789 itens<br>
+    Benchmark: Perf Int SP_NP (Capital SP) · Varejista: Thalia
+  </div>
+</footer>
+
+<script>
+const cats = [
+  {n:"Prod/Trat. Cabelos / Condic.",b:30085914,v:1275531},
+  {n:"Outros",b:29656644,v:1216769},
+  {n:"Shampoo",b:13048250,v:525360},
+  {n:"Maquiagem",b:11685814,v:175978},
+  {n:"Tintura para Cabelo",b:9333619,v:578324},
+  {n:"Produto p/ Trat. de Pele",b:7659462,v:335439},
+  {n:"Esmaltes para Unhas",b:3954203,v:187654},
+  {n:"Bronzeadores",b:3253817,v:73436},
+  {n:"Desodorantes",b:2999575,v:318678},
+  {n:"Modelador de Cabelo",b:2663229,v:95136},
+  {n:"Perfumes/Colônias/Deo-Col.",b:1934324,v:69248},
+  {n:"Sabonetes Sólidos+Líquidos",b:1684399,v:160202},
+  {n:"Escova Capilar",b:1483715,v:32075},
+  {n:"Lenços Umedecidos",b:1162407,v:55434},
+  {n:"Lâminas e Aparelhos",b:960050,v:99973},
+];
+const fabs = [
+  {n:"L'Oréal",b:9647046,v:289837},
+  {n:"Wella",b:6801899,v:92870},
+  {n:"O Boticário",b:5430441,v:94805},
+  {n:"Haskell",b:2972271,v:211215},
+  {n:"Salon Line",b:2836992,v:226379},
+  {n:"Unilever",b:2505608,v:361750},
+  {n:"Vizzela",b:2445721,v:20560},
+  {n:"Coty",b:2433799,v:181808},
+  {n:"Krenak do Brasil",b:2324955,v:188575},
+  {n:"P&G",b:2144600,v:213811},
+  {n:"Bio Extratus",b:2053191,v:212205},
+  {n:"Farmativa",b:1967430,v:56213},
+  {n:"Hustle Brands",b:1899759,v:0},
+  {n:"Atalanta",b:1877617,v:58676},
+  {n:"Kenvue",b:1866468,v:113084},
+];
+const oppCats = [
+  {n:"Trat. Cabelos / Condic.",b:7654433,count:442},
+  {n:"Shampoo",b:4410836,count:228},
+  {n:"Trat. de Pele",b:1595677,count:115},
+  {n:"Maquiagem",b:825071,count:45},
+  {n:"Perfumes / Colônias",b:733609,count:77},
+  {n:"Lenços Umedecidos",b:691603,count:12},
+  {n:"Modelador de Cabelo",b:387640,count:32},
+  {n:"Bronzeadores",b:374111,count:38},
+  {n:"Desodorantes",b:293590,count:20},
+  {n:"Tintura Cabelo",b:210923,count:26},
+];
+const items = [
+  {n:"LOWELL PRO PERF NL ADL SE 2500ML",c:"Shampoo",b:216141,g:null},
+  {n:"MARIGOLD BABY PREMIUM 120UNID",c:"Lenços Umedecidos",b:177659,g:66.3},
+  {n:"TRUSS USO OBRIG TRAT RECONSTRUTOR SPRAY 260ML",c:"Trat. Cabelos",b:177389,g:16.8},
+  {n:"EUDORA (O BOTICARIO) BASE LIQUIDA 30ML",c:"Maquiagem",b:172116,g:84.3},
+  {n:"TON TON COMFORT 140UN",c:"Lenços Umedecidos",b:154763,g:null},
+  {n:"WELLA OIL REFLECTIONS NL ADL 250ML",c:"Shampoo",b:134088,g:27.4},
+  {n:"SEBASTIAN DARK OIL MASC TRAT C/ENX PT 150ML IMP",c:"Trat. Cabelos",b:115598,g:149.8},
+  {n:"HIDRATEI LEAVE IN S/ENX SPRAY 250ML",c:"Trat. Cabelos",b:112896,g:-18.9},
+  {n:"OE LEVOE 120UN LV+ PG-",c:"Lenços Umedecidos",b:102023,g:-9.4},
+  {n:"BC KNUT CAB PERF COND C/ENX FR 550ML+SH NL 750ML",c:"Trat. Cabelos",b:102017,g:-1.7},
+  {n:"CB KNUT CAB PERF SH NL 750ML+COND C/ENX FR 550ML",c:"Shampoo",b:102017,g:-1.7},
+  {n:"LOWELL LISO MAGICO FLUIDO S/ENX SPRAY 200ML",c:"Trat. Cabelos",b:99720,g:-15.4},
+  {n:"WELLA INVIGO COND C/E BISN 200ML IMP",c:"Trat. Cabelos",b:96868,g:7.3},
+  {n:"VIZZELA REAL FIX FIXADOR 100ML P/ FACE",c:"Maquiagem",b:96245,g:null},
+  {n:"L OREAL PROF PARIS ABSOLUT REPAIR NL ADL SE 240ML",c:"Shampoo",b:91012,g:86.2},
+  {n:"MISE EN SCENE PERFECT SERUM NL ADL SE 530ML IMP",c:"Shampoo",b:89358,g:311.7},
+  {n:"SEBASTIAN DARK OIL NL ADL SE 250ML IMP",c:"Shampoo",b:88996,g:90.8},
+  {n:"SEBASTIAN DARK OIL COND C/ENX FR 250ML IMP",c:"Trat. Cabelos",b:87926,g:127.9},
+  {n:"LOREAL PROF PARIS SERIEEXPERT VITACOLOR COND FR 200ML",c:"Trat. Cabelos",b:85199,g:2.1},
+  {n:"MEDICUBE LENC LIMP FAC 70UN",c:"Trat. Pele",b:84960,g:null},
+  {n:"L OREAL PROF PARIS REVES VITAMINO COLOR SH 300ML",c:"Shampoo",b:84404,g:23.4},
+  {n:"TRUSS NUTRI INFUSION NL 1000ML ADL",c:"Shampoo",b:84163,g:null},
+  {n:"L OREAL PROF PARIS NUTRI OIL NL ADL SE 300ML",c:"Shampoo",b:83981,g:31.3},
+  {n:"MISE EN SCENE PERFECT SERUM COND PUMP SPRAY 530ML IMP",c:"Trat. Cabelos",b:80271,g:257.1},
+  {n:"TRUSS EQUILIBRIUM SCALP NL 1000ML ADL",c:"Shampoo",b:76064,g:null},
+  {n:"SEBASTIAN DARK OIL OLEO TRAT PUMP SPRAY 30ML IMP",c:"Trat. Cabelos",b:74936,g:241.3},
+  {n:"WELLA REFLECTIONS LIGHT OLEO TRAT PUMP SPRAY 30ML",c:"Trat. Cabelos",b:72173,g:-15.6},
+  {n:"LOWELL LAVATORIO COND C/ENX FR 2500ML",c:"Trat. Cabelos",b:69050,g:null},
+  {n:"MEU BEBE ULTRA 100 UN",c:"Lenços Umedecidos",b:68738,g:1.3},
+  {n:"MY MIMOS CARE 120 UNID",c:"Lenços Umedecidos",b:67441,g:51.8},
+  {n:"MAGIC BEAUTY SERUM PUMP SPRAY 60ML",c:"Trat. Cabelos",b:64633,g:256.6},
+  {n:"WELLA FUSION NL 250ML ADL",c:"Shampoo",b:63647,g:null},
+  {n:"TRUSS NUTRI INFUSION COND C/ENX FR 1000ML",c:"Trat. Cabelos",b:63323,g:null},
+  {n:"LOLA DENSIDADE ACIDIFICANTE C/ENX FR 250ML",c:"Trat. Cabelos",b:63234,g:-21.9},
+  {n:"WELLA FUSION NL ADL SE 1000ML IMP",c:"Shampoo",b:62840,g:28.0},
+  {n:"TSUBAKI PREMIUM VOLUME E REPAIR NL 450ML ADL",c:"Shampoo",b:61769,g:null},
+  {n:"LOREAL PROF PARIS NUTRI OIL LEAVE IN BISN 150ML",c:"Trat. Cabelos",b:61417,g:5.9},
+  {n:"LOREAL PROF PARIS NUTRI OIL COND C/EX BISN 200ML",c:"Trat. Cabelos",b:60857,g:-11.3},
+  {n:"BRAE ESSENTIAL OLEO TRAT S/ENX PUMP 60ML",c:"Trat. Cabelos",b:59904,g:31.0},
+  {n:"CATHARINE HILL BASE LIQUIDA 30ML",c:"Maquiagem",b:59388,g:5.5},
+  {n:"ARVENSIS DEU ONDA ATIV CACHOS S/ENX FR 300ML",c:"Trat. Cabelos",b:59207,g:-6.4},
+  {n:"WELLA ULTIMATE LUXE OIL MASC TRAT C/E PT 500ML IMP",c:"Trat. Cabelos",b:59188,g:119.7},
+  {n:"WELLA INVIGO AQUA PURE NL ADL SE 1000ML",c:"Shampoo",b:56812,g:-9.9},
+  {n:"OE DERMAONE SAB LIQ FR 200ML C/2 PVP ESP",c:"Hig. Íntima",b:56634,g:-15.9},
+  {n:"LOREAL PROFESSIONNEL PARIS ABSOLUT REPAIR SH 750ML",c:"Shampoo",b:56501,g:-43.3},
+  {n:"THE CREAMS BUMBUM CREAM CR FIRMADORA CP 200ML",c:"Trat. Pele",b:55815,g:246.7},
+  {n:"WELLA ULTIMATE OLEO TRAT PUMP SPRAY 30ML",c:"Trat. Cabelos",b:55784,g:130.8},
+  {n:"PRINCIPIA GL 01 GEL LIMPEZA FACIAL 350ML",c:"Trat. Pele",b:55412,g:5.1},
+  {n:"L OREAL PROF PARIS GRI/BC NL ADL SE 300ML",c:"Shampoo",b:55166,g:15.6},
+  {n:"LOWELL MIRTILO NL ADL 1000ML",c:"Shampoo",b:55109,g:null},
+  {n:"MAYBELLINE THE COLOSSAL MASC CILIOS PRETO 2ML",c:"Maquiagem",b:55043,g:63.3},
+  {n:"AURA BEAUTY AFORDITE GARDEN NL SPRAY FEM 200ML",c:"Desodorantes",b:53420,g:2963.1},
+  {n:"LOREAL PROF PARIS MOLEC MASC TRAT C/ENX PT PL 200ML",c:"Trat. Cabelos",b:53403,g:51.0},
+  {n:"L OREAL PROF PARIS PRO LONGER NL ADL SE 750ML",c:"Shampoo",b:52505,g:-30.6},
+  {n:"WELLA FUSION COND C/E BISN 200ML IMP",c:"Trat. Cabelos",b:52240,g:35.1},
+  {n:"L OREAL PROF PARIS VITAMINO COLOR NL ADL SE 750ML",c:"Shampoo",b:51571,g:-37.3},
+  {n:"WELLA ULTIMATE LUXEOIL MASC TRAT C/ENX PT 150ML IMP",c:"Trat. Cabelos",b:51230,g:17.1},
+  {n:"LOREAL PROF PARIS SERIEEXPERT INFORCER COND BISN 200ML",c:"Trat. Cabelos",b:49405,g:-0.3},
+  {n:"WELLA ULTIMATE LUXE OIL NL ADL SE 1000ML IMP",c:"Shampoo",b:49255,g:37.5},
+  {n:"HIDRATEI NL ADL SE 250ML",c:"Shampoo",b:49226,g:-2.6},
+  {n:"WELLA FUSION COND C/ENX FR 1000ML",c:"Trat. Cabelos",b:48749,g:0.0},
+  {n:"LOREAL PROF PARIS ABSOLUT REPAIR COND PUMP 750ML IMP",c:"Trat. Cabelos",b:48647,g:-28.7},
+  {n:"WELLA INVIGO NUTRI ENRICH COND C/ENX FR 1000ML",c:"Trat. Cabelos",b:48161,g:57.0},
+  {n:"WELLA FUSION MASC TRAT C/ENX PT 500ML",c:"Trat. Cabelos",b:46837,g:-26.6},
+  {n:"PRINCIPIA GL 02 GEL LIMPEZA FACIAL 350ML",c:"Trat. Pele",b:45909,g:28.5},
+  {n:"CB JACQUES JANINE REPAIR NL ADL SE 800ML+COND 7500ML",c:"Shampoo",b:44754,g:2560.1},
+  {n:"TRUSS NUTRI INFUSION OLEO TRAT C/E PUMP SPRAY 60ML",c:"Trat. Cabelos",b:44248,g:1400.2},
+  {n:"ALVA NL STICK KRISTALL SENSITIVE VEGANO S/PERF 60G",c:"Desodorantes",b:44226,g:null},
+  {n:"ANEETHUN CR TRAT C/ENX SILICONE FRASCO 250ML",c:"Trat. Cabelos",b:44035,g:19.5},
+  {n:"KERASTASE BAIN HYDRA FORTIFIANT NL ADL SE 250ML",c:"Shampoo",b:44029,g:0.8},
+  {n:"KNUT CAB PERFEITO LEAVE IN S/ENX SPRAY 200ML",c:"Trat. Cabelos",b:43908,g:null},
+  {n:"MAYBELLINE THE FALSIES SURREAL MASCARA P/CILIOS 10ML",c:"Maquiagem",b:43725,g:-17.8},
+  {n:"SILHOUETTE SPRAY FIX 500ML",c:"Modelador Cabelo",b:43385,g:3.0},
+  {n:"WELLA LUXE OIL NL ADL SE 250ML IMP",c:"Shampoo",b:43311,g:103.2},
+  {n:"ALVA NL S/ PERF STICK UNISEX 120G",c:"Desodorantes",b:42630,g:null},
+  {n:"TRUSS ILLUMINATE OLEO TRAT C/E PUMP SPRAY 60ML",c:"Trat. Cabelos",b:42413,g:237.4},
+  {n:"L OREAL PROF PARIS ABSOLUT REPAIR NL 500ML ADL IMP",c:"Shampoo",b:42102,g:null},
+  {n:"KNUT CAMELINA E OJON OLEO TRAT PUMP SPRAY 35ML",c:"Trat. Cabelos",b:41870,g:5.6},
+  {n:"HIDRATEI SUPER MASC TRAT C/ENX PT 250ML",c:"Trat. Cabelos",b:41860,g:-12.2},
+  {n:"TRUSS HAIR PROTECTOR PROTETOR TERMICO PUMP 250ML",c:"Trat. Cabelos",b:41303,g:-28.5},
+  {n:"ARVENSIS CACHOS NATURAIS NL ADL SE 300ML",c:"Shampoo",b:41293,g:-9.1},
+  {n:"LOREAL PROF PARIS PRO LONGER COND BISN 200ML",c:"Trat. Cabelos",b:40424,g:-26.6},
+  {n:"LOREAL PROF PARIS VITAMINO COLOR COND PUMP 750ML IMP",c:"Trat. Cabelos",b:40283,g:0.6},
+  {n:"AURA BEAUTY B SPLASH COL FEM 200ML",c:"Perfumes/Colônias",b:39646,g:1632.0},
+  {n:"MARIGOLD BABY SENSITIVE 120UNID",c:"Lenços Umedecidos",b:39325,g:41.9},
+  {n:"CB JACQUES JANINE BAMBU NL ADL SE 800ML+COND 7500ML",c:"Shampoo",b:39287,g:601.9},
+  {n:"BIORE MAKE UP REMOVER OLEO DEMAQ LIMP FC 150ML",c:"Trat. Pele",b:39095,g:null},
+  {n:"SEBASTIAN PENETRAITT MASC TRAT C/ENX BISN 150ML IMP",c:"Trat. Cabelos",b:38770,g:55.9},
+  {n:"TRUSS EQUILIBRIUM COND C/ENX FR 300ML",c:"Trat. Cabelos",b:38678,g:-8.9},
+  {n:"KERASYS HID E BRILHO TRAT COMPLETO C/ENX FR 180ML IMP",c:"Trat. Cabelos",b:38394,g:229.9},
+  {n:"LOREAL PROF PARIS PWRDOSE LIPID TRAT C/E AMP VD 10ML",c:"Trat. Cabelos",b:38365,g:99.0},
+  {n:"KEUNE CARE VITAL NUTRITION MASC TRAT C/ENX PT 200ML",c:"Trat. Cabelos",b:38358,g:22.2},
+  {n:"WELLA INVIGO COLOR BRILLIANCE MASC TRAT C/ENX PT 500ML",c:"Trat. Cabelos",b:38273,g:76.6},
+  {n:"ARVENSIS CACHOS NATURAIS ATIV CACHOS S/ENX FR 500ML",c:"Trat. Cabelos",b:38237,g:9.3},
+  {n:"WELLA ULTIMATE LUXE OIL COND BISN 200ML IMP",c:"Trat. Cabelos",b:37499,g:15.3},
+  {n:"HIDRATEI COND C/E PUMP SPRAY 200ML",c:"Trat. Cabelos",b:37437,g:-1.7},
+  {n:"L OREAL PROF PARIS METAL DETOX NL ADL SE 300ML",c:"Shampoo",b:37308,g:-4.7},
+  {n:"CREAMY WATERY FC LOC/CR FPS60 50ML",c:"Bronzeadores",b:37268,g:-23.2},
+  {n:"LOWELL LISO MAGIC OLEO TRAT PUMP SPRAY 30ML",c:"Trat. Cabelos",b:37144,g:-21.5},
+  {n:"CB JACQUES JANINE LISS NL ADL SE 800ML+COND 7500ML",c:"Shampoo",b:36948,g:291.9},
+];
+const insights = [
+  {icon:"💇",color:"blue",
+   title:"L'Oréal e Wella: gap crítico no profissional SP",
+   text:"L'Oréal (R$9,6M benchmark) e Wella (R$6,8M) dominam o mercado profissional paulistano. Penetração Thalia: L'Oréal 3%, Wella 1,4%. Sebastian Dark Oil tem 5 SKUs distintos na lista de oportunidades — linha completa ausente no portfólio.",
+   tag:"R$16,4M de lacuna combinada"},
+  {icon:"🏪",color:"red",
+   title:"Hustle Brands: R$1,9M sem nenhuma venda",
+   text:"Fabricante em 13º lugar com R$1,9M de benchmark na Capital SP e faturamento zero na Thalia. Marca com forte presença no canal paulistano — ausência total sugere oportunidade de prospecção imediata.",
+   tag:"R$0 de vendas Thalia"},
+  {icon:"💄",color:"gold",
+   title:"Maquiagem: 1,5% de penetração no maior mercado",
+   text:"R$11,6M de benchmark na Capital SP com apenas R$175k de faturamento Thalia — penetração de 1,5%. Eudora Base Líquida 30ml lidera com R$172k. Mercado paulistano é mais exigente: alta margem e forte rotatividade neste canal.",
+   tag:"Penetração: 1,5% em SP capital"},
+  {icon:"🌀",color:"teal",
+   title:"Novos entrantes com crescimento explosivo",
+   text:"Mise en Scene Perfect Serum (+311% e +257%), Aura Beauty Afordite (+2963%), CB Jacques Janine (+2560%), Truss Nutri Infusion Óleo (+1400%) — todos com Thalia=0. São tendências já massificadas no mercado paulistano.",
+   tag:"119 SKUs crescendo >100%"},
+  {icon:"🧴",color:"green",
+   title:"Truss: linha profissional completa ausente",
+   text:"Truss aparece 4 vezes no Top 100 (Reconstrutor, Nutri Infusion SH, Equilibrium, Hair Protector) — R$400k combinados. Marca consolidada no canal profissional SP com zero presença Thalia. Negociação de distribuição exclusiva.",
+   tag:"4 SKUs no Top 100"},
+  {icon:"🧻",color:"gold",
+   title:"Lenços umedecidos: alta concentração por SKU",
+   text:"Apenas 12 SKUs de oportunidade, mas R$691k de benchmark acumulado — média de R$57k por item. Marigold Baby Premium (R$177k) e Ton Ton Comfort (R$154k) somam R$330k. Categoria eficiente, fácil de incorporar ao mix.",
+   tag:"R$57k médio por SKU"},
+];
+
+function fmt(v){
+  if(v>=1000000) return 'R$'+(v/1000000).toFixed(1)+'M';
+  if(v>=1000) return 'R$'+(v/1000).toFixed(0)+'k';
+  return 'R$'+v.toFixed(0);
+}
+function pct(v,b){return b>0?((v/b)*100).toFixed(1)+'%':'0%'}
+function penClass(v,b){
+  const p=(v/b)*100;
+  if(p<5) return 'pen-critical';
+  if(p<20) return 'pen-low';
+  return 'pen-mid';
+}
+
+const catGrid = document.getElementById('cat-grid');
+const maxCatB = Math.max(...cats.map(c=>c.b));
+cats.forEach((c,i)=>{
+  const pp=((c.v/c.b)*100).toFixed(1);
+  const bw=Math.round((c.b/maxCatB)*100);
+  const vw=Math.round((c.v/maxCatB)*100);
+  catGrid.innerHTML+=`
+  <div class="cat-card tooltip-wrap">
+    <div class="cat-rank">Nº${String(i+1).padStart(2,'0')}</div>
+    <div class="cat-name">${c.n}</div>
+    <div class="cat-numbers">
+      <div><div class="cat-benchmark">${fmt(c.b)}</div><div style="font-size:10px;color:var(--text3);margin-top:2px">benchmark SP</div></div>
+      <div style="text-align:right"><div class="cat-varejista">${fmt(c.v)}</div><div style="font-size:10px;color:var(--text3);margin-top:2px">thalia</div></div>
+    </div>
+    <div class="cat-bar-wrap"><div class="cat-bar-fill" data-w="${bw}" style="width:0%"></div></div>
+    <div class="cat-bar-wrap" style="margin-top:3px;background:rgba(248,113,113,0.1)"><div class="cat-bar-fill" data-w="${vw}" style="width:0%;background:var(--red)"></div></div>
+    <span class="cat-pen ${penClass(c.v,c.b)}">${pp}% penetração</span>
+    <div class="tooltip">Benchmark SP: ${fmt(c.b)}<br>Thalia: ${fmt(c.v)}<br>Penetração: ${pp}%</div>
+  </div>`;
+});
+
+const fabChart = document.getElementById('fab-chart');
+const maxFabB = Math.max(...fabs.map(f=>f.b));
+fabs.forEach((f,i)=>{
+  const bw=Math.round((f.b/maxFabB)*100);
+  const vw=Math.round((f.v/maxFabB)*100);
+  const pp=((f.v/f.b)*100).toFixed(1);
+  const isZero = f.v===0;
+  fabChart.innerHTML+=`
+  <div class="chart-row">
+    <div class="chart-label" style="${isZero?'color:var(--red)':''}">${f.n}${isZero?' ⚠':''}</div>
+    <div class="chart-bar-outer">
+      <div class="chart-bar-inner" data-w="${bw}" style="width:0%;background:linear-gradient(90deg,#185fa5,#4f9cf9)">${fmt(f.b)}</div>
+      <div class="chart-bar-v" data-w="${vw}" style="width:0%"></div>
+    </div>
+    <div class="chart-val" style="${isZero?'color:var(--red);font-weight:600':''}'">${isZero?'R$ 0':pp+'% penetr.'}</div>
+  </div>`;
+});
+
+const oppCatsEl = document.getElementById('opp-cats');
+oppCats.forEach(c=>{
+  oppCatsEl.innerHTML+=`
+  <div class="opp-cat">
+    <div class="opp-cat-name">${c.n}</div>
+    <div class="opp-cat-b">${fmt(c.b)}</div>
+    <div class="opp-cat-count">${c.count.toLocaleString('pt-BR')} SKUs sem cobertura</div>
+  </div>`;
+});
+
+const tbody = document.getElementById('items-tbody');
+items.forEach((item,i)=>{
+  const gVal=item.g;
+  const gStr=gVal!=null?(gVal>0?'+'+gVal.toFixed(0)+'%':gVal.toFixed(0)+'%'):'—';
+  const gStyle=gVal!=null&&gVal>0?'color:#4ade80;font-weight:500':gVal!=null&&gVal<0?'color:#f87171':'color:#475569';
+  tbody.innerHTML+=`
+  <tr>
+    <td class="item-rank">${String(i+1).padStart(2,'0')}</td>
+    <td><div class="item-name" title="${item.n}">${item.n}</div></td>
+    <td><span class="item-cat">${item.c}</span></td>
+    <td class="right"><span class="item-b">${fmt(item.b)}</span></td>
+    <td class="right"><span style="font-family:'DM Mono',monospace;font-size:12px;${gStyle}">${gStr}</span></td>
+    <td class="right"><span class="item-zero">R$ 0</span></td>
+  </tr>`;
+});
+
+const insightsGrid = document.getElementById('insights-grid');
+insights.forEach(ins=>{
+  insightsGrid.innerHTML+=`
+  <div class="insight-card ${ins.color}">
+    <div class="insight-icon">${ins.icon}</div>
+    <div class="insight-title">${ins.title}</div>
+    <div class="insight-text">${ins.text}</div>
+    <span class="insight-highlight ${ins.color!=='blue'?ins.color:''}">${ins.tag}</span>
+  </div>`;
+});
+
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      e.target.querySelectorAll('[data-w]').forEach((el,i)=>{
+        setTimeout(()=>{el.style.width=el.dataset.w+'%';},i*60);
+      });
+      e.target.querySelectorAll('.cat-bar-fill[data-w]').forEach((el,i)=>{
+        setTimeout(()=>{el.style.width=el.dataset.w+'%';},i*40+200);
+      });
+    }
+  });
+},{threshold:0.15});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+const sections=document.querySelectorAll('section[id]');
+const navLinks=document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll',()=>{
+  let cur='';
+  sections.forEach(s=>{if(window.scrollY>=s.offsetTop-120)cur=s.id;});
+  navLinks.forEach(a=>{a.style.color=a.getAttribute('href')==='#'+cur?'var(--text)':'';});
+});
+</script>
+</body>
+</html>
